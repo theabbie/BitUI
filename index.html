@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>
+UI
+</title>
+<style>
+body {
+  margin: 0px;
+}
+canvas {
+  height: 100%;
+  width: 100%;
+}
+</style>
+</head>
+<body>
+<canvas></canvas>
+</body>
+<script>
+var canvas = document.querySelector("canvas");
+canvas.width = canvas.clientWidth;
+canvas.height = canvas.clientHeight;
+canvas.addEventListener("click", e => {
+    var rect = this.canvas.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+    x = Math.floor(canvas.width*x/canvas.clientWidth);
+    y = Math.floor(canvas.height*y/canvas.clientHeight);
+    console.clear();
+    console.log(x,y);
+    console.log(screen.screen[x][y]);
+    screen.click(x,y);
+});
+var screen = new Screen(canvas.width,canvas.height);
+var button = new Element(100,100,300,300,"btn1",screen);
+button.style(function(i,j) {
+  if (Math.min(i-button.x,button.x+button.w-i)<10 || Math.min(j-button.y,button.h+button.y-j)<10) return [0,0,255];
+  if (Math.min(i-button.x,button.x+button.w-i)<30 || Math.min(j-button.y,button.h+button.y-j)<30) return [255,0,0];
+  return [0,0,0];
+});
+button.onclick(function() {alert(1);})
+screen.render();
+console.log(screen.screen);
+</script>
+<script src="ui.js"></script>
+</html>
